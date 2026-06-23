@@ -7,6 +7,12 @@ import CovidView from './views/CovidView';
 import CryptoView from './views/CryptoView';
 import WeatherView from './views/WeatherView';
 import MarvelView from './views/MarvelView';
+import ChuckNorrisView from './views/ChuckNorrisView';
+import RickAndMortyView from './views/RickAndMortyView';
+import NasaView from './views/NasaView';
+import RandomUserView from './views/RandomUserView';
+import CountriesView from './views/CountriesView';
+import StarWarsView from './views/StarWarsView';
 import './App.css';
 
 function App() {
@@ -23,6 +29,12 @@ function App() {
             <Route path="/crypto" element={<CryptoView />} />
             <Route path="/weather" element={<WeatherView />} />
             <Route path="/marvel" element={<MarvelView />} />
+            <Route path="/chucknorris" element={<ChuckNorrisView />} />
+            <Route path="/rickandmorty" element={<RickAndMortyView />} />
+            <Route path="/nasa" element={<NasaView />} />
+            <Route path="/randomuser" element={<RandomUserView />} />
+            <Route path="/countries" element={<CountriesView />} />
+            <Route path="/starwars" element={<StarWarsView />} />
           </Routes>
         </main>
       </div>
