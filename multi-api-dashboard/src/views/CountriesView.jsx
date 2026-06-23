@@ -12,22 +12,23 @@ function CountriesView() {
   const [region, setRegion]       = useState('');
 
   useEffect(() => {
-    fetch('https://restcountries.com/v3.1/all?fields=name,flags,capital,population,region,subregion,area')
-      .then(r => {
-        if (!r.ok) throw new Error(`Error ${r.status}: ${r.statusText}`);
-        return r.json();
-      })
-      .then(data => {
-        if (!Array.isArray(data)) throw new Error('Respuesta inesperada de la API');
-        const sorted = data.sort((a, b) => a.name.common.localeCompare(b.name.common));
-        setAll(sorted);
-        setCountries(sorted.slice(0, 24));
-        setLoading(false);
-      })
-      .catch(err => {
-        setError(err.message);
-        setLoading(false);
-      });
+    const PRIMARY  = 'https://restcountries.com/v3.1/all?fields=name,flags,capital,population,region,subregion,area';
+    const FALLBACK = 'https://raw.githubusercontent.com/mledoze/countries/master/countries.json';
+
+    const load = (url) =>
+      fetch(url)
+        .then(r => { if (!r.ok) throw new Error(`HTTP ${r.status}`); return r.json(); })
+        .then(data => {
+          if (!Array.isArray(data)) throw new Error('Formato inesperado');
+          const sorted = data.sort((a, b) => a.name.common.localeCompare(b.name.common));
+          setAll(sorted);
+          setCountries(sorted.slice(0, 24));
+          setLoading(false);
+        });
+
+    load(PRIMARY)
+      .catch(() => load(FALLBACK))
+      .catch(err => { setError('No se pudo cargar el listado de países: ' + err.message); setLoading(false); });
   }, []);
 
   const applyFilters = (q = search, r = region, source = all) => {
